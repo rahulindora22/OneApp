@@ -29,6 +29,17 @@ desktop.ini
 # ── Build output ──────────────────────────────────────────────────────
 build/
 
+# ── Amplify generated (keep amplify.yml but ignore runtime dirs) ──────
+amplify/#current-cloud-backend
+amplify/.config/local-*
+amplify/logs
+amplify/mock-data
+amplify/mock-api-resources
+amplify/backend/amplify-meta.json
+amplify/backend/.temp
+build/
+.cache/
+
 # ── Salesforce DX — not part of this repo ─────────────────────────────
 force-app/
 manifest/

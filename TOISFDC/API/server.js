@@ -34,5 +34,9 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: err.message || 'Internal server error' });
 });
 
-const PORT = process.env.PORT || 8081;
-app.listen(PORT, '0.0.0.0', () => console.log(`OneApp API running on http://0.0.0.0:${PORT}`));
+if (require.main === module) {
+  const PORT = process.env.PORT || 8081;
+  app.listen(PORT, '0.0.0.0', () => console.log(`OneApp API running on http://0.0.0.0:${PORT}`));
+}
+
+module.exports = app;

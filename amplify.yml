@@ -1,0 +1,17 @@
+version: 1
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - cd TOISFDC/API
+        - npm install
+    build:
+      commands:
+        - echo "OneApp API build complete"
+  artifacts:
+    baseDirectory: TOISFDC/API
+    files:
+      - '**/*'
+  cache:
+    paths:
+      - TOISFDC/API/node_modules/**/*
