@@ -1,0 +1,11 @@
+# Secrets
+.env
+.env.local
+
+# Dependencies
+node_modules/
+
+# Expo
+.expo/
+dist/
+web-build/

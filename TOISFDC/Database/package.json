@@ -1,0 +1,10 @@
+{
+  "name": "oneapp-db-deploy",
+  "version": "1.0.0",
+  "scripts": {
+    "deploy": "node deploy.js"
+  },
+  "dependencies": {
+    "mysql2": "^3.9.2"
+  }
+}

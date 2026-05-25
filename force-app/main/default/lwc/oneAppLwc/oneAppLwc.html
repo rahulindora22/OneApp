@@ -1,0 +1,1823 @@
+<!--
+@description       : 
+@author            : ChangeMeIn@UserSettingsUnder.SFDoc
+@group             : 
+@last modified on  : 04-19-2022
+@last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+-->
+<template>
+<lightning-card>
+<template if:true={viewOneApp}>
+    <template if:true={isRWA}>
+        <div>
+            <lightning-button variant="Neutral" label="RWA" title="Primary action" onclick={handleClickRwa} class="slds-m-left_x-small"></lightning-button>
+
+        </div>
+    </template></template>
+
+</lightning-card>
+        
+    
+<!--RWA Segment Start Here -->
+
+<!--RWA Segment Search Section -->
+
+<template if:true={isRWAComp}>
+    
+    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_4-of-7">
+        <lightning-input type="text"  label="Search"  placeholder="Minimum Three Character" value={searchValueRWA} onchange={searchKeywordRWA} style="width:19rem"></lightning-input>
+        <lightning-button class="slds-m-left_x-medium" style="width:250px" label="Search Again" onclick={refreshComponent}></lightning-button>
+        <lightning-button class="slds-m-left_x-medium" style="width:250px" label="Create New Record" onclick={navigateToNew}></lightning-button>
+        <lightning-button class="slds-m-left_x-medium" style="width:250px" label="Back" onclick={onBackClickRWA} ></lightning-button>
+    </div>
+    <lightning-card title="RWA Records ">  
+        <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_4-of-7 ">
+            <div class="slds-scrollable " style="height:20rem;width:25rem">    
+                <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table--header-fixed">
+                    <thead>
+                    <tr class="slds-line-height_reset slds-text-title--caps">
+                        <th class="" scope="col">
+                            <a class="slds-th__action slds-text-link_reset " href="javascript:void(0);" role="button" tabindex="0" onclick={sortRecs} name="Name_of_Society__c">Name Of Society
+                                <div if:true={isAsc}>
+                                    &#9650;
+                                </div>
+                                <div if:true={isDsc}>
+                                    &#9660;
+                                </div>
+                                
+                            </a>
+                        </th>
+                       <th class="" scope="col">
+                            <a class="slds-th__action slds-text-link_reset" href="javascript:void(0);" role="button" tabindex="0" onclick={sortRecs} name="Depot__r.Name">Depot
+                                <div if:true={isAsc}>
+                                    &#9650;
+                                </div>
+                                <div if:true={isDsc}>
+                                    &#9660;
+                                </div>
+                            </a>
+                        </th>
+                        <th class="" scope="col">
+                            <a class="slds-th__action slds-text-link_reset" href="javascript:void(0);" role="button" tabindex="0" onclick={sortRecs} name="Locality__r.Name">Locality
+                                <div if:true={isAsc}>
+                                    &#9650;
+                                </div>
+                                <div if:true={isDsc}>
+                                    &#9660;
+                                </div>
+                            </a>
+                        </th>
+                        <th class="" scope="col">
+                            <a class="slds-th__action slds-text-link_reset " href="javascript:void(0);" role="button" tabindex="0" onclick={sortRecs} name="Address__c">Address
+                                <div if:true={isAsc}>
+                                    &#9650;
+                                </div>
+                                <div if:true={isDsc}>
+                                    &#9660;
+                                </div>
+                            </a>
+                        </th>
+                        <th class="" scope="col">
+                         
+                        </th>
+                    </tr>
+                    </thead>
+                    
+                    <tbody>   
+                        <template if:true={segmentRecord}>
+                        <template for:each={segmentRecord} for:item="seg">
+                            <tr class="slds-hint-parent" key={seg.Id}>
+                                <td>
+                                    <div class="slds-truncate"><a onclick={handleClickLink} data-id={seg.Id}>{seg.Name_of_Society__c}</a>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="slds-truncate">{seg.Depot__r.Name}</div>
+                                </td>
+                                <td>
+                                    <div class="slds-truncate">{seg.Locality__r.Name}</div>
+                                </td>
+                                <td>
+                                    <div class="slds-truncate">{seg.Address__c}</div>
+                                </td>
+                               
+                            </tr>
+                        </template>
+                    </template>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </lightning-card>
+    
+</template>
+
+<!-- For Existing Segment Record -->
+<template if:true={viewSegmentRecord}>
+<lightning-card title= "Existing RWA "> 
+    <template if:true={closeExitRWA}>
+  <!-- <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_4-of-7"> -->
+    <div class="slds-col slds-size_1-of-1">
+        <lightning-record-edit-form record-id={segmentId} object-api-name="Segment__c">
+         <div class="slds-grid" >
+                <div class="slds-col slds-size_1-of-2">
+                    
+                    <lightning-output-field field-name="Name_of_Society__c"></lightning-output-field> 
+                    <lightning-output-field field-name="Slab__c"></lightning-output-field>  
+                    <lightning-output-field field-name="Category__c"></lightning-output-field>  
+                    <lightning-output-field field-name="Depot__c"></lightning-output-field>   
+                    <lightning-output-field field-name="Segment_Branch__c"></lightning-output-field> 
+                    <lightning-output-field field-name="Total_no_of_Flats__c"></lightning-output-field> 
+                    <lightning-output-field field-name="No_of_flats_occupied__c"></lightning-output-field> 
+                </div>
+                <div class="slds-col slds-size_1-of-1">
+                    <lightning-output-field field-name="Address__c"></lightning-output-field> 
+                    <lightning-output-field field-name="Premiumness__c"></lightning-output-field> 
+                    <lightning-output-field field-name="City__c"></lightning-output-field>
+                    <lightning-output-field field-name="Locality__c"></lightning-output-field> 
+                    <lightning-output-field field-name="Locality_Pincode__c"></lightning-output-field> 
+                    <lightning-output-field field-name="Delivery_Mode__c"></lightning-output-field> 
+                    <lightning-output-field></lightning-output-field> 
+                 </div>
+            </div> 
+        </lightning-record-edit-form>
+    </div>
+       
+        <lightning-card > 
+        <div  class="slds-align_absolute-left"  style="height:5rem">
+            <lightning-button style="padding-left: 10px;" type="submit" variant="brand" label="Update" onclick={updateRWA}></lightning-button>  
+        </div>
+     </lightning-card>
+     
+   
+</template>
+<template if:true={isRWAUpdate}>
+    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_4-of-7">
+            <lightning-record-edit-form record-id={segmentId} object-api-name="Segment__c"
+            onsuccess={handleSuccess}  onsubmit ={handleSubmit}>
+            <div class="slds-grid" style="margin-left: 10px">
+                <div class="slds-col slds-size_1-of-2">
+                    <lightning-input-field field-name="Name_of_Society__c"></lightning-input-field>
+                    <lightning-input-field field-name="Slab__c"></lightning-input-field>  
+                    <lightning-input-field field-name="Category__c"></lightning-input-field>  
+                    <lightning-input-field field-name="Depot__c"></lightning-input-field>    
+                    <lightning-input-field field-name="Total_no_of_Flats__c"></lightning-input-field>  
+                    <lightning-output-field field-name="Segment_Branch__c"></lightning-output-field>
+                </div>
+                <div class="slds-col slds-size_1-of-2">
+                    <lightning-input-field field-name="Address__c"></lightning-input-field>
+                    <lightning-input-field field-name="Premiumness__c"></lightning-input-field>
+                    <lightning-input-field field-name="Locality__c"></lightning-input-field> 
+                    <lightning-input-field field-name="Delivery_Mode__c"></lightning-input-field>
+                    <lightning-input-field field-name="No_of_flats_occupied__c"></lightning-input-field>
+                    <lightning-output-field field-name="City__c"></lightning-output-field>
+                    <lightning-output-field field-name="Locality_Pincode__c"></lightning-output-field>  
+                   
+           </div>
+          
+           </div>
+           <div class="slds-align_absolute-center slds-p-top_small">  
+            <lightning-button class="slds-m-top_small" variant="brand" type="submit" label="Save">
+            </lightning-button>
+            </div>
+        </lightning-record-edit-form>
+    </div>
+    <div class="slds-col slds-size_1-of-2">
+   
+</div>
+   </template>
+</lightning-card>
+
+
+<!-- Transaction Details For Existing Segment -->
+<template if:true={isRWA}>
+<lightning-card title="Transactions Details" >   
+    <div class="slds-col slds-size_1-of-2">
+        <div class="slds-scrollable" style="width:25rem"> 
+            <div style="position: relative;
+            min-height: 1px;
+            padding-left: 2px;
+            padding-right: 2px;" 
+            >
+            <div style="margin-left:0px; float:left; width:360px;">
+                <!-- if Last vist blank and Is Covid unchecked --> 
+                <template if:true={showTableRWAFirst}>  
+                <table class="slds-table slds-table_cell-buffer slds-table_bordered" >
+                    
+                    <thead>
+                        
+                        <tr style="height:20px;">
+                            
+                            <th  style="width:20rem" >
+                                Name Of Newspaper
+                            </th>
+                            
+                          <th  style="width:20rem"   >
+                               FTD Count
+                            </th>
+                            <!--
+                            <th  style="width:20rem"  >
+                               Last Visit  {lastDate}
+                            </th>
+                            
+                            <th  style="width:20rem"  >
+                                    
+                               Post Covid Count
+                            </th>
+                        -->
+                            
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <template for:each={viewTransactionData} for:item="acc" for:index="index" >
+                            <tr class="slds-hint-parent" key={acc.Id}>
+                                <th data-label="Name" scope="row" style="width: 20px;">
+                                    <div class="slds-truncate ">{acc.name}</div>
+                                </th>
+                             
+                                <td data-label="FTD Count" style="width: 20px;">
+                                    <div class="slds-align_absolute-center slds-has-flexi-truncate">
+                             <lightning-input type="number" variant="label-hidden" value={acc.ftdcount} data-id={index} onchange={handleEditTD}> </lightning-input> 
+
+                            </div>
+                                </td>
+                                   <!--
+                                <td data-label="Last Visit" style="width: 20px;">
+                                    <div class="slds-truncate slds-align_absolute-center">{acc.lastdate}</div>
+                                </td>
+
+                               
+                                <td data-label="Second Last Visit" style="width: 20px;">
+                                    <div class="slds-truncate slds-align_absolute-center ">{acc.secondlastdate}</div>
+                                </td>
+                                <td data-label="Action" style="width: 20px;">
+                                    <lightning-button-icon icon-name="utility:delete"
+                                                                                data-id={indx}       
+                                                                                alternative-text="Delete"     
+                                                                                class="slds-m-left_xx-small"
+                                                                                onclick={removeRowTS} 
+                                                                                title="Delete"></lightning-button-icon>
+                                </td>
+                            -->
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+                </template>
+
+                 <!-- if Last vist blank and Is Covid checked  --> 
+                <template if:true={showTableForRWACovidCheck}>  
+                    <table class="slds-table slds-table_cell-buffer slds-table_bordered" >
+                        
+                        <thead>
+                            
+                            <tr style="height:20px;">
+                                
+                                <th  style="width:20rem" >
+                                    Name Of Newspaper
+                                </th>
+                                
+                              <th  style="width:20rem"   >
+                                   FTD Count
+                                </th>
+                                <!--
+                                <th  style="width:20rem"  >
+                                   Last Visit  {lastDate}
+                                </th> -->
+                                
+                                <th  style="width:20rem"  >
+                                        
+                                   Pre Covid Count
+                                </th>
+                            
+                                
+    
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template for:each={viewTransactionData} for:item="acc" for:index="index" >
+                                <tr class="slds-hint-parent" key={acc.Id}>
+                                    <th data-label="Name" scope="row" style="width: 20px;">
+                                        <div class="slds-truncate ">{acc.name}</div>
+                                    </th>
+                                 
+                                    <td data-label="FTD Count" style="width: 20px;">
+                                        
+                                 <lightning-input type="number" name="FTD Count" label="" value={acc.ftdcount} data-id={index} onchange={handleEditTD}> </lightning-input> 
+    
+                                        
+                                    </td>
+                                       <!--
+                                    <td data-label="Last Visit" style="width: 20px;">
+                                        <div class="slds-truncate slds-align_absolute-center">{acc.lastdate}</div>
+                                    </td>
+                                -->
+                                   
+                                <template if:true={acc.count}>
+                                    <th aria-label="Name" aria-sort="none" class="slds-is-resizable slds-is-sortable slds-cell_action-mode" scope="col">
+       
+                                        <div class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">{acc.count}</div>
+                                    </th>
+                                 </template>
+                                <template if:false={acc.count}>
+                                        <th aria-label="Name" aria-sort="none" class="slds-is-resizable slds-is-sortable slds-cell_action-mode" scope="col">
+           
+                                            <div class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate"></div>
+                                        </th>
+                                </template>
+                                    <!--
+                                    <td data-label="Action" style="width: 20px;">
+                                        <lightning-button-icon icon-name="utility:delete"
+                                                                                    data-id={indx}       
+                                                                                    alternative-text="Delete"     
+                                                                                    class="slds-m-left_xx-small"
+                                                                                    onclick={removeRowTS} 
+                                                                                    title="Delete"></lightning-button-icon>
+                                    </td>
+                                -->
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </template>
+
+                 <!--// if Last vist not  blank and Is Covid unchecked --> 
+                <template if:true={showTableRWASecond}>  
+                    <table class="slds-table slds-table_cell-buffer slds-table_bordered" >
+                        
+                        <thead>
+                            
+                            <tr style="height:10px;">
+                                
+                                <th aria-label="Name" aria-sort="none" class="slds-is-resizable slds-is-sortable slds-cell_action-mode" scope="col">
+       
+                                    <div class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                       Name Of Newspaper
+                                    </div>
+                                </th>
+                                
+                                <th aria-label="Name" aria-sort="none" class="slds-is-resizable slds-is-sortable slds-cell_action-mode" scope="col">
+       
+                                    <div class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                   FTD Count
+                                   </div>
+                                </th>
+                                
+                                <th aria-label="Name" aria-sort="none" class="slds-is-resizable slds-is-sortable slds-cell_action-mode" scope="col">
+       
+                                 <div class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                  Last Visit 
+                                   </div>
+                                </th>
+                               
+                                
+    
+                            </tr>
+                            <tr style="height:10px;">
+                                
+                                <th aria-label="Name" aria-sort="none" class="slds-is-resizable slds-is-sortable slds-cell_action-mode" scope="col">
+       
+                                    
+                                </th>
+                                
+                                <th aria-label="Name" aria-sort="none" class="slds-is-resizable slds-is-sortable slds-cell_action-mode" scope="col">
+       
+                                   
+                                </th>
+                                
+                                <th aria-label="Name" aria-sort="none" class="slds-is-resizable slds-is-sortable slds-cell_action-mode" scope="col">
+       
+                                 <div class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                   {lastDate}
+                                   </div>
+                                </th>
+                               
+    
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template for:each={viewTransactionData} for:item="acc" for:index="index" >
+                                <tr class="slds-hint-parent" key={acc.Id}>
+                                    <th aria-label="Name" aria-sort="none" class="slds-is-resizable slds-is-sortable slds-cell_action-mode" scope="col">
+       
+                                        <div class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">{acc.name}</div>
+                                    </th>
+                                 
+                                    <th aria-label="Name" aria-sort="none" class="slds-is-resizable slds-is-sortable slds-cell_action-mode" scope="col">
+       
+                                        <div class="slds-align_absolute-center slds-has-flexi-truncate">
+                                        
+                                 <lightning-input type="number" variant="label-hidden" value={acc.ftdcount} data-id={index} onchange={handleEditTD}> </lightning-input> 
+    
+                                        </div>
+                                    </th>
+                                     
+                                  <!-- <th aria-label="Name" aria-sort="none" class="slds-is-resizable slds-is-sortable slds-cell_action-mode" scope="col">
+       
+                                        <div class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">{acc.lastdate}</div>
+                                    </th> -->
+
+                                    
+                                    <template if:true={acc.lastdate}>
+                                        <th aria-label="Name" aria-sort="none" class="slds-is-resizable slds-is-sortable slds-cell_action-mode" scope="col">
+           
+                                            <div class="slds-align_absolute-center slds-has-flexi-truncate">{acc.lastdate}</div>
+                                        </th>
+                                        </template>
+                                        <template if:false={acc.lastdate}>
+                                            <th aria-label="Name" aria-sort="none" class="slds-is-resizable slds-is-sortable slds-cell_action-mode" scope="col">
+               
+                                                <div class="slds-align_absolute-center slds-has-flexi-truncate">0</div>
+                                            </th>
+                                        </template>
+                                    
+    
+                                   <!--
+                                    <td data-label="Second Last Visit" style="width: 20px;">
+                                        <div class="slds-truncate slds-align_absolute-center ">{acc.secondlastdate}</div>
+                                    </td>
+                                    <td data-label="Action" style="width: 20px;">
+                                        <lightning-button-icon icon-name="utility:delete"
+                                                                                    data-id={indx}       
+                                                                                    alternative-text="Delete"     
+                                                                                    class="slds-m-left_xx-small"
+                                                                                    onclick={removeRowTS} 
+                                                                                    title="Delete"></lightning-button-icon>
+                                    </td>
+                                -->
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </template>
+                
+                 <!-- if Last vist not  blank and Is Covid checked   {lastDate} --> 
+                <template if:true={showTableForRWABothCheck}>  
+                    <table class="slds-table slds-table_cell-buffer slds-table_bordered" >
+                        
+                        <thead>
+                            
+                            <tr style="height:20px;">
+                                
+                                <th aria-label="Name" aria-sort="none" class="slds-is-resizable slds-is-sortable slds-cell_action-mode" scope="col">
+       
+                                    <div class="slds-grid  slds-has-flexi-truncate">
+                                    Name Of Newspaper</div>
+                                </th>
+                                
+                                <th aria-label="Name" aria-sort="none" class="slds-is-resizable slds-is-sortable slds-cell_action-mode" scope="col">
+       
+                                    <div class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                       FTD Count
+                                   </div>
+                                </th>
+                                
+                                <th aria-label="Name" aria-sort="none" class="slds-is-resizable slds-is-sortable slds-cell_action-mode" scope="col">
+       
+                                    <div class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                   Last Visit 
+                                   </div>
+                                </th>
+                               
+                                <th aria-label="Name" aria-sort="none" class="slds-is-resizable slds-is-sortable slds-cell_action-mode" scope="col">
+       
+                                    <div class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                        
+                                   Pre Covid Count
+                                   </div>
+                                </th>
+                            
+                                
+    
+                            </tr>
+                            <tr style="height:20px;">
+                                
+                                <th aria-label="Name" aria-sort="none" class="slds-is-resizable slds-is-sortable slds-cell_action-mode" scope="col">
+       
+                                    
+                                </th>
+                                
+                                <th aria-label="Name" aria-sort="none" class="slds-is-resizable slds-is-sortable slds-cell_action-mode" scope="col">
+       
+                                 
+                                </th>
+                                
+                                <th aria-label="Name" aria-sort="none" class="slds-is-resizable slds-is-sortable slds-cell_action-mode" scope="col">
+       
+                                    <div class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                   {lastDate} 
+                                   </div>
+                                </th>
+                               
+                                <th aria-label="Name" aria-sort="none" class="slds-is-resizable slds-is-sortable slds-cell_action-mode" scope="col">
+       
+                                   
+                                </th>
+                            
+                                
+    
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template for:each={viewTransactionData} for:item="acc" for:index="index" >
+                                <tr class="slds-hint-parent" key={acc.Id}>
+                                    
+  
+                                        <th aria-label="Name" aria-sort="none" class="slds-is-resizable slds-is-sortable slds-cell_action-mode" scope="col">
+       
+                                            <div class="slds-align_absolute-center slds-has-flexi-truncate">{acc.name}</div>
+                                    </th>
+                                   
+                                 
+                                    <th data-label="FTD Count" style="width: 20px;">
+                                        <div  class="slds-align_absolute-center slds-has-flexi-truncate">
+                                 <lightning-input type="number" variant="label-hidden" value={acc.ftdcount} data-id={index} onchange={handleEditTD}> </lightning-input> 
+                                    </div>
+                                        
+                                    </th>
+                                     
+                                   
+                                    <template if:true={acc.lastdate}>
+                                        <th aria-label="Name" aria-sort="none" class="slds-is-resizable slds-is-sortable slds-cell_action-mode" scope="col">
+           
+                                            <div class="slds-align_absolute-center slds-has-flexi-truncate">{acc.lastdate}</div>
+                                        </th>
+                                        </template>
+                                        <template if:false={acc.lastdate}>
+                                            <th aria-label="Name" aria-sort="none" class="slds-is-resizable slds-is-sortable slds-cell_action-mode" scope="col">
+               
+                                                <div class="slds-align_absolute-center slds-has-flexi-truncate">0</div>
+                                            </th>
+                                        </template>
+    
+                                    <template if:true={acc.count}>
+                                    <th aria-label="Name" aria-sort="none" class="slds-is-resizable slds-is-sortable slds-cell_action-mode" scope="col">
+       
+                                        <div class="slds-align_absolute-center slds-has-flexi-truncate">{acc.count}</div>
+                                    </th>
+                                    </template>
+                                    <template if:false={acc.count}>
+                                        <th aria-label="Name" aria-sort="none" class="slds-is-resizable slds-is-sortable slds-cell_action-mode" scope="col">
+           
+                                            <div class="slds-align_absolute-center slds-has-flexi-truncate"></div>
+                                        </th>
+                                    </template>
+                                    <!--
+                                    <td data-label="Action" style="width: 20px;">
+                                        <lightning-button-icon icon-name="utility:delete"
+                                                                                    data-id={indx}       
+                                                                                    alternative-text="Delete"     
+                                                                                    class="slds-m-left_xx-small"
+                                                                                    onclick={removeRowTS} 
+                                                                                    title="Delete"></lightning-button-icon>
+                                    </td>
+                                -->
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </template>
+                </div>
+        </div>
+        </div>
+        <div  class="slds-m-around--xx-large container-fluid">
+            <template if:true={showButton}>
+            <!---- <lightning-button variant="Neutral" label="Save  " onclick={handleTDSave} class="slds-m-left_x-small"></lightning-button>   -->      
+            </template>
+            <!---  <lightning-button variant="Neutral" label="Cancel  " onclick={handleTDCancel} class="slds-m-left_x-small"></lightning-button>       -->  
+
+            
+        </div>
+        
+      
+            <lightning-layout-item size="12" padding="around-small">
+                <lightning-button variant="brand" label="Add New "  onclick={addRow2}></lightning-button>  
+                                </lightning-layout-item>
+          
+       <lightning-card>
+    
+    
+    
+</lightning-card>
+ 
+</div>
+<template if:true={showAfterSave}>
+    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_4-of-7">
+        <div class="slds-align_absolute-center slds-m-vertical_large">
+            <template if:true={isCheckInShow}>
+            <lightning-button variant="brand" disabled={locationButtonDisabled} icon-name="utility:target" label="Check In"
+                                title="Use your device's GPS and other location sensors to determine your current location"
+                                class="slds-m-top_small" onclick={handleGetCurrentLocationClickRWA}>
+            </lightning-button>
+            </template> &nbsp;
+            <template if:true={isCheckInOutShow}>   
+                <lightning-button variant="destructive" disabled={locationButtonDisabled} icon-name="utility:target" label="Check Out"
+                class="slds-m-top_small" onclick={checkOutFromOneApp}></lightning-button>
+                </template>
+                &nbsp;
+            <lightning-button class="slds-m-top_small" label="Search Again" onclick={onSearchAgainSegmentView}></lightning-button>
+            <lightning-button class="slds-m-top_small" label="Cancel" onclick={onCancelSegmentView}></lightning-button>
+        </div>
+    </div>
+    </template>
+</lightning-card>    
+<template if:false={showAfterSave}>
+<div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_4-of-7">
+    <div class="slds-align_absolute-center slds-m-vertical_large">
+        <template if:true={isCheckInShow}>
+        <lightning-button variant="brand" disabled={locationButtonDisabled} icon-name="utility:target" label="Check In"
+                            title="Use your device's GPS and other location sensors to determine your current location"
+                            class="slds-m-top_small" onclick={handleGetCurrentLocationClickRWA}>
+        </lightning-button>
+        </template> &nbsp;
+        <template if:true={isCheckInOutShow}>   
+            <lightning-button variant="destructive" disabled={locationButtonDisabled} icon-name="utility:target" label="Check Out"
+            class="slds-m-top_small" onclick={checkOutFromOneApp}></lightning-button>
+            </template>
+            &nbsp;
+        <lightning-button class="slds-m-top_small" label="Search Again" onclick={onSearchAgainSegmentView}></lightning-button>
+        <lightning-button class="slds-m-top_small" label="Cancel" onclick={onCancelSegmentView}></lightning-button>
+    </div>
+</div>
+</template>
+    <lightning-card>
+               
+  
+        
+
+    <template if:true={CreateTSrecord}>
+
+       <!-- <div class="container-fluid">      
+
+            <div class="slds-col slds-size_1-of-3">
+                <div class="slds-scrollable " style="height:10rem;width:32rem"> 
+            <table class="slds-table slds-table_bordered slds-table_cell-buffer"> 
+                <thead>
+                    <tr class="slds-text-title_caps">
+                        <th scope="col">
+                            
+                        </th>
+                        
+                        
+                        <th scope="col">
+                            <div class="slds-truncate" title="Choose Company">Company</div>
+                        </th>  
+                        
+                        
+                        <th scope="col">
+                            <div class="slds-truncate" title="Choose Newspaper">Newspaper </div>
+                        </th>
+                        
+                        <th scope="col">
+                            <div class="slds-truncate" title="FTD Count">FTD Count</div>
+                        </th>
+                        <th scope="col">
+                         
+                        </th>
+                    </tr>
+                </thead>   
+                <tbody>      
+                    <tr key={tcc.key} id={tcc.key}> 
+                        <td>{indx}</td> 
+                    
+                        
+                                <td>
+                                <lightning-combobox
+                                name=""
+                                label=""
+                                value={CompValues}
+                                placeholder="Select Option"
+                                options={CompValues}
+                                onchange={handleChange} ></lightning-combobox>
+                        </td>
+                        
+                        <td><div if:true={chooseNewspaper}>
+                            <lightning-combobox
+                            name=""
+                            label=""
+                            value={pickValues}
+                            placeholder="Select Progress"
+                            options={pickValues}
+                            onchange={handleChangeoption} ></lightning-combobox>
+                        </div>
+                        <div if:false={chooseNewspaper}>
+                            <lightning-input type="text" data-id={indx} label="" value="" onchange={handleTSNameChange}></lightning-input>                        
+
+                        </div>  
+                    </td>
+                        
+                        
+                        
+                        <td>
+                            <lightning-input type="number" data-id={indx}  value={} onchange={handleTSFTDChange}></lightning-input>                        
+                        </td>
+                        
+
+                        <td>
+                            <lightning-button-icon icon-name="utility:delete"
+                                                                        data-id={indx}       
+                                                                        alternative-text="Delete"     
+                                                                        class="slds-m-left_xx-small"
+                                                                        onclick={removeRowTS} 
+                                                                        title="Delete"></lightning-button-icon>
+                        </td>
+                    </tr>
+    
+                        
+                </tbody>
+            </table>
+            <div class="slds-align_absolute-center slds-p-top_small">                
+                <lightning-button name="Save" variant="brand" label="Save" onclick={saveRecordTS} ></lightning-button>
+            </div>
+            </div>
+            </div>
+        </div> -->
+   
+        
+
+   
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+               
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModalPop}>
+                        <lightning-icon icon-name="utility:close"
+                            alternative-text="close"
+                            variant="inverse"
+                            size="small" ></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-heading-03" class="slds-text-heading_medium slds-hyphenate">Transaction Detail </h2>
+                </header>
+               
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-03">
+
+
+                    
+                    <lightning-combobox
+                            name="News Paper"
+                            label="News Paper"
+                            value={pickValues}
+                            placeholder="Select Progress"
+                            options={pickValues}
+                            onchange={handleChangeoption} ></lightning-combobox> 
+                            <lightning-input type="number" label="FTD Count" data-id={indx}  value={} onchange={handleTSFTDChange}></lightning-input> 
+                </div>
+                
+                <footer class="slds-modal__footer">
+                    
+                    <div class="slds-align_absolute-center slds-p-top_small">                
+                        <lightning-button name="Save" label="Save" onclick={saveRecordTS} ></lightning-button>
+                        <lightning-button name="Save" label="Cancel" onclick={closeModalPop} ></lightning-button>
+                    
+                    </div>
+                </footer>
+            </div>
+        </section>
+   
+        <div class="slds-backdrop slds-backdrop_open"></div>
+   
+   
+   
+   
+    </template>
+
+    
+</lightning-card>
+</template>
+
+<!--Display Segment Contact for Existing Rwa-->
+<template if:false={createSegConVendor}>
+
+    <template if:true={showTable}>    
+      <!--  <template if:true={contList}> -->
+
+            <template if:true={showConEditPop1}>
+                      
+                <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                    <div class="slds-modal__container">
+                       
+                        <header class="slds-modal__header">
+                            <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModalPop}>
+                                <lightning-icon icon-name="utility:close"
+                                    alternative-text="close"
+                                    variant="inverse"
+                                    size="small" ></lightning-icon>
+                                <span class="slds-assistive-text">Close</span>
+                            </button>
+                            <h2 id="modal-heading-04" class="slds-text-heading_medium slds-hyphenate">Segment Contact</h2>
+                        </header>
+                       
+                        <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-4">
+                            
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_4-of-7">
+                                <lightning-record-edit-form record-id={contactEditId} object-api-name="Segment_Contact__c"
+                                onsuccess={handleSuccessCont}  onsubmit ={handleSubmitCont}>
+                                <div class="slds-grid" style="margin-left: 10px">
+                                    <div class="slds-col slds-size_1-of-2">
+                                           
+                                        <lightning-input-field field-name="Name"></lightning-input-field>
+                                        <lightning-input-field type="Email" field-name="Email__c"></lightning-input-field>  
+                                        <lightning-input-field type="Mobile" field-name="Phone__c"></lightning-input-field>  
+                                        <lightning-input-field field-name="Designation__c"></lightning-input-field>
+                    
+                                    </div>
+                                   
+                               </div>
+                               <div class="slds-align_absolute-center slds-p-top_small">  
+                                <lightning-button class="slds-m-top_small" variant="brand" type="submit" label="Save">
+                                    <lightning-button name="Save" label="Cancel" onclick={closeModalPop} ></lightning-button>
+                                </lightning-button>
+                                </div>
+                            </lightning-record-edit-form>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                       
+                    </div>
+                        </div>
+                        
+                        <footer class="slds-modal__footer">
+                            
+                            <div class="slds-align_absolute-center slds-p-top_small">                
+                            </div>
+                        </footer>
+                    </div>
+                </section>
+                <div class="slds-backdrop slds-backdrop_open"></div>
+            </template>
+
+            <div class="slds-split-view_container slds-is-open">
+                <lightning-card title="RWA Contacts With Designations" icon-name="standard:contact" ></lightning-card>
+                <article aria-hidden="false" id="split-view-id" class="slds-split-view slds-grid slds-grid_vertical slds-grow">
+                 <!-- <header class="slds-split-view__header">
+                   
+                    
+                  </header> -->
+                  <div class="slds-grid slds-grid_vertical">
+                    <!-- <div class="slds-split-view__list-header slds-grid">
+                      <span class="slds-assistive-text">Sorted by:</span>
+                      <span>
+                        <svg class="slds-icon slds-icon_xx-small slds-icon-text-default slds-align-top" aria-hidden="true">
+                          <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                        </svg>
+                      </span>
+                      <span class="slds-assistive-text">- Descending</span>
+                    </div>
+                -->
+                    <ul aria-multiselectable="true" class="slds-scrollable_y" role="listbox" aria-label="Select an item to open it in a new workspace tab.">
+                        <template for:each={contList} for:item="con" for:index="indx" >
+                            <div   key={scc.key} id={scc.key} >
+                      <li class="slds-split-view__list-item" role="presentation">
+                        
+                        <div  class="slds-split-view__list-item-action slds-grow slds-has-flexi-truncate" >
+                       
+                            <span >
+                                <lightning-icon icon-name="action:edit" data-id={con.Id} alternative-text="Preview" title="Preview" size="x-small" onclick={editContact}  ></lightning-icon>
+
+                            </span>
+                               
+                
+                           
+                                       
+                                
+                          <div class="slds-grid slds-wrap">
+                            <span class="slds-truncate slds-text-body_regular slds-text-color_default" title="Name ">{con.Name}</span>
+                            <span class="slds-truncate slds-col_bump-left" title="Phone">
+                                <lightning-formatted-phone value={con.Phone__c}></lightning-formatted-phone>
+                            </span>
+                          </div>
+                          <div class="slds-grid slds-wrap">
+                            <span class="slds-truncate" title="Email">{con.Email__c}</span>
+                            <span class="slds-truncate slds-col_bump-left" title="Designation">{con.Designation__c}</span>
+                          </div>
+                        </div>
+                    
+                      </li>
+                    </div>
+                    </template>
+                    
+                      
+                    </ul>
+                  </div>
+                </article>
+              </div>
+       <!-- </template> -->
+        </template>
+  <!--  </div></div>  -->
+    <lightning-card>
+       
+         <lightning-layout-item size="12" padding="around-small">
+            <lightning-button variant="brand"  class="slds-align_absolute-left" label="Add New" onclick={addRow}></lightning-button>
+          </lightning-layout-item>
+       
+     </lightning-card>
+    <template if:true={ShowRowSC}>
+         
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open" >
+                <div class="slds-modal__container">
+                   
+                    <header class="slds-modal__header">
+                        <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModalPop}>
+                            <lightning-icon icon-name="utility:close"
+                                alternative-text="close"
+                                variant="inverse"
+                                size="small" ></lightning-icon>
+                            <span class="slds-assistive-text">Close</span>
+                        </button>
+                        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Segment Contact</h2>
+                    </header>
+                   
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        <lightning-input data-id={indx} label="Name"  required="true" value={scc.Name}  onchange={handleNameChange}></lightning-input>                            
+                        <lightning-combobox data-id={indx} name="Designation" required="true" label="Designation" value={value} onchange={handleDesignationChange}
+            
+                        options={pickval.data.values} >
+                      
+                      </lightning-combobox>
+                      <lightning-input data-id={indx} label="Email" type="Email"  value={scc.Email__c} onchange={handleEmailChange} ></lightning-input>   
+                       
+                        <lightning-input data-id={indx} label="Phone" type="Number"   required maxlength="10" minlength="10"  value={scc.Phone__c} onchange={handlePhoneChange} ></lightning-input>  &nbsp;  &nbsp;  &nbsp; 
+                        
+                    </div>
+                    
+                    <footer class="slds-modal__footer">
+                        
+                        <div class="slds-align_absolute-center slds-p-top_small">                
+                            <lightning-button name="Save" label="Save" onclick={saveRecord} ></lightning-button>
+                            <lightning-button name="Save" label="Cancel" onclick={closeModalPop} ></lightning-button>
+                        </div>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+      
+    
+
+        </template>
+         
+        <template if:true={error}>
+            
+        </template>
+
+</template>
+
+
+<!--Display Segment Vendor for Existing Rwa-->
+<template if:false={createSegConVendor}>
+          <!-- <template if:true={vendList}> -->
+            
+
+
+               
+
+
+                <template if:true={showAccEditPop1}>
+                      
+                    <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                        <div class="slds-modal__container">
+                           
+                            <header class="slds-modal__header">
+                                <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModalPop}>
+                                    <lightning-icon icon-name="utility:close"
+                                        alternative-text="close"
+                                        variant="inverse"
+                                        size="small" ></lightning-icon>
+                                    <span class="slds-assistive-text">Close</span>
+                                </button>
+                                <h2 id="modal-heading-05" class="slds-text-heading_medium slds-hyphenate">Segment Contact</h2>
+                            </header>
+                           
+                            <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-5">
+                                
+                            <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_4-of-7">
+                                    <lightning-record-edit-form record-id={accountEditId} object-api-name="Segment_Contact__c"
+                                    onsuccess={handleSuccessVendor}  onsubmit ={handleSubmit}>
+                                    <div class="slds-grid" style="margin-left: 10px">
+                                        <div class="slds-col slds-size_1-of-2">
+                                          <!--  <lightning-input-field field-name="Name"></lightning-input-field> -->
+                                            <lightning-input-field field-name="Business_Partner__c"></lightning-input-field>    
+                                          <!--   <lightning-input-field field-name="Email__c"></lightning-input-field>  
+                                            <lightning-input-field field-name="Phone__c"></lightning-input-field>  -->
+                                           
+                                        </div>
+                                       
+                                   </div>
+                                   <div class="slds-align_absolute-center slds-p-top_small">  
+                                    <lightning-button class="slds-m-top_small" variant="brand" type="submit" label="Save">
+                                        <lightning-button name="Save" label="Cancel" onclick={closeModalPop} ></lightning-button>
+                                    </lightning-button>
+                                    </div>
+                                </lightning-record-edit-form>
+                            </div>
+                            <div class="slds-col slds-size_1-of-2">
+                           
+                        </div>
+                            </div>
+                            
+                            <footer class="slds-modal__footer">
+                                
+                                <div class="slds-align_absolute-center slds-p-top_small">                
+                                </div>
+                            </footer>
+                        </div>
+                    </section>
+                    <div class="slds-backdrop slds-backdrop_open"></div>
+        
+        
+
+                </template>
+    
+            <div class="slds-split-view_container slds-is-open">
+                <lightning-card title="RWA Vendor With Vendor Code" icon-name="standard:account_info" ></lightning-card>
+                <article aria-hidden="false" id="split-view-ids" class="slds-split-view slds-grid slds-grid_vertical slds-grow">
+                 <!-- <header class="slds-split-view__header">
+                   
+                  </header> -->
+                  <div class="slds-grid slds-grid_vertical">
+                 <!--   <div class="slds-split-view__list-header slds-grid">
+                      <span class="slds-assistive-text">Sorted by:</span>
+                      <span>
+                        <svg class="slds-icon slds-icon_xx-small slds-icon-text-default slds-align-top" aria-hidden="true">
+                          <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+                        </svg>
+                      </span>
+                      <span class="slds-assistive-text">- Descending</span>
+                    </div>
+                -->
+                   
+                    <ul aria-multiselectable="true" class="slds-scrollable_y" role="listbox" aria-label="Select an item to open it in a new workspace tab.">
+                        <template for:each={vendList} for:item="con" for:index="indx" >
+                            <div   key={scc.key} id={scc.key} >
+                      <li class="slds-split-view__list-item" role="presentation">
+                        
+                         
+                      <!-- <a href="#" role="option" class="slds-split-view__list-item-action slds-grow slds-has-flexi-truncate" > -->
+                        <div  class="slds-split-view__list-item-action slds-grow slds-has-flexi-truncate" >
+                       
+                            <span >
+                                <lightning-icon icon-name="action:edit" data-id={con.Id} alternative-text="Preview" title="Preview" size="x-small" onclick={editAccount}  ></lightning-icon>
+
+                            </span>
+                          
+                          <div class="slds-grid slds-wrap">
+                            <span class="slds-truncate slds-text-body_regular slds-text-color_default" title="Vendor Code">{con.Business_Partner__r.Name}</span>
+                         <!--  <span class="slds-truncate slds-text-body_regular slds-text-color_default" title="Name ">{con.Name}</span>
+                            
+                            <span class="slds-truncate slds-col_bump-left" title="Phone">
+                              
+                                <lightning-formatted-phone value={con.Phone__c}></lightning-formatted-phone>
+                            </span>-->
+                          </div> 
+                          <div class="slds-grid slds-wrap">
+                            <!-- <span class="slds-truncate" title="Email">{con.Email__c}</span>
+                            <span class="slds-truncate slds-col_bump-left" title="Vendor Code">{con.Business_Partner__r.Name}</span> -->
+                          </div>
+                          </div>
+                       <!-- </a> -->
+                    
+                    
+                      </li>
+                    </div>
+                    </template>
+                    
+                      
+                    </ul>
+                  </div>    
+                </article>
+              </div>
+           <!-- </template> -->
+
+           
+        <lightning-card>
+    
+            <lightning-layout-item size="12" padding="around-small">
+                <lightning-button variant="brand" label="Add New "  class="slds-align_absolute-left" onclick={addRow1}></lightning-button>  
+                                </lightning-layout-item>
+            
+        </lightning-card>
+              
+            <template if:true={ShowRowSV}>
+                
+          <!-- <div class="container-fluid">        
+              
+                    <thead>
+                        <tr class="slds-text-title_caps">
+                            <th scope="col">
+                                <div class="slds-truncate">#</div>
+                            </th>
+                            <th scope="col">
+                                <div class="slds-truncate" title=" Name">Name</div>
+                            </th>
+                            <th scope="col">
+                                <div class="slds-truncate" title="Email">Email</div>
+                            </th>
+                            <th scope="col">
+                                <div class="slds-truncate" title="Phone">Phone</div>
+                            </th>
+                        
+                            <th scope="col">
+                                <div class="slds-truncate" title="Vendor Code">Vendor Code</div>
+                            </th>
+                            
+                            <th scope="col">
+                                <div class="slds-truncate" title="Action">Action</div>
+                            </th>
+                        </tr>
+                    </thead>   
+                    <tbody>      
+                        
+                        <template for:each={SVList} for:item="svv" for:index="indx">
+                            <tr key={svv.key} id={svv.key}> 
+                                <td>{indx}</td>                                                  
+                                <td>
+                                    <lightning-input data-id={indx} label="" value={svv.Name} onchange={handleNameChangeVend}></lightning-input>                               
+                                </td>
+                                <td>
+                                    <lightning-input data-id={indx} label="" value={svv.Email__c} onchange={handleEmailChangeVend}></lightning-input>                        
+                                </td>
+                                <td>
+                                    <lightning-input data-id={indx} label="" value={svv.Phone__c} onchange={handlePhoneChangeVend}></lightning-input>
+                                </td>
+                            
+                                    <td>
+                                    <lightning-input data-id={indx} label="" value={svv.Business_Partner__c} onchange={handleDesignationChangeVend}></lightning-input>
+                                </td>
+                                
+                                <td>
+                                    <lightning-button-icon icon-name="utility:delete"
+                                                                                data-id={indx}       
+                                                                                alternative-text="Delete"     
+                                                                                class="slds-m-left_xx-small"
+                                                                                onclick={removeRowSV} 
+                                                                                title="Delete"></lightning-button-icon>
+                                </td>
+                            </tr>
+                        </template>
+                            
+                    </tbody>
+                </table> -->
+                <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                    <div class="slds-modal__container">
+                       
+                        <header class="slds-modal__header">
+                            <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModalPop}>
+                                <lightning-icon icon-name="utility:close"
+                                    alternative-text="close"
+                                    variant="inverse"
+                                    size="small" ></lightning-icon>
+                                <span class="slds-assistive-text">Close</span>
+                            </button>
+                            <h2 id="modal-heading-02" class="slds-text-heading_medium slds-hyphenate">Add Segment Vendor</h2>
+                        </header>
+                       
+                        <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-02">
+                     <!--  <lightning-input data-id={indx} label="Name" value={svv.Name} onchange={handleNameChange} ></lightning-input>  -->
+                      <c-customlookuplwc icon-name="standard:account"
+                         s-object-api-name="RMD_Business_Partner__c"
+                         label="Vendor Code"
+                         onlookupupdate={lookupRecord}
+                         placeholder="Search Business Partner here..."></c-customlookuplwc>
+                                                     
+                         <!--    <lightning-input data-id={indx} label="Email" value={svv.Email__c} onchange={handleEmailChange} ></lightning-input>  
+                         
+                            <lightning-input data-id={indx} label="Phone" value={svv.Phone__c} onchange={handlePhoneChange} ></lightning-input> -->
+                        
+                        </div>
+                        
+                        <footer class="slds-modal__footer">
+                            
+                           <div class="slds-align_absolute-center slds-p-top_small">                
+                                <lightning-button name="Save" label="Save" onclick={saveRecordVendors} ></lightning-button>
+                                <lightning-button name="Save" label="Cancel" onclick={closeModalPop} ></lightning-button>
+                            
+                            </div>
+                        </footer>
+                    </div>
+                </section>
+                <div class="slds-backdrop slds-backdrop_open"></div>
+          
+        
+
+                          
+                    
+            
+            
+        </template>
+           
+ 
+</template>  
+
+<!--Create Segment Vendor for Existing Rwa-->
+<template if:true={viewSegConContact}>
+    <lightning-card title= "Segment Contact Details">
+        <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_4-of-7">
+            <lightning-record-view-form record-id={recordId} object-api-name="Segment_Contact__c">
+                <div class="slds-grid" style="margin-left: 10px" >
+                    <div class="slds-col slds-size_1-of-2">
+                        <lightning-output-field field-name="Name"> </lightning-output-field>
+                        <lightning-click-to-dial field-name="Phone__c"> </lightning-click-to-dial>
+                       <!-- <lightning-output-field field-name="Phone__c"> </lightning-output-field> -->
+                    </div>
+                    <div class="slds-col slds-size_1-of-2">
+                        <lightning-output-field field-name="Email__c"> </lightning-output-field>
+                        <lightning-output-field field-name="Business_Partner__c"> </lightning-output-field>
+                    </div>
+                </div>
+                <div class="slds-align_absolute-center">
+                    <lightning-button class="slds-m-top_small" label="Back" onclick={onBackCreateSegConContact} ></lightning-button>
+                </div>
+            </lightning-record-view-form>
+        </div>
+    </lightning-card>
+</template>
+<template if:true={viewSegConVendor}>
+    <lightning-card title= "Servicing Vendors Details">
+        <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_4-of-7">
+            <lightning-record-view-form record-id={recordId} object-api-name="Segment_Contact__c">
+                <div class="slds-grid" style="margin-left: 10px" >
+                    <div class="slds-col slds-size_1-of-2">
+                        <lightning-output-field field-name="Name"> </lightning-output-field>
+                        <lightning-output-field field-name="Phone__c"> </lightning-output-field>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2">
+                        <lightning-output-field field-name="Email__c"> </lightning-output-field>
+                        <lightning-output-field field-name="Business_Partner__c"> </lightning-output-field>
+                    </div>
+                </div>
+                <div class="slds-align_absolute-center">
+                    <lightning-button class="slds-m-top_small" label="Back" onclick={onBackCreateSegConVendor}></lightning-button>
+                </div>
+            </lightning-record-view-form>
+        </div>
+    </lightning-card>
+</template>
+
+
+        
+<!-- The get-current-location button; Disabled if LocationService isn't available -->
+
+</template>
+
+<!-- For New Segment Record -->
+
+<!-- Create and Submit New  Segment Record -->
+<template if:true={newRecord}>
+    <lightning-card title= " New RWA Details">
+        <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_4-of-7">
+            <lightning-record-edit-form object-api-name="Segment__c" onsuccess={handleSubmitRWA} record-type-id={recordType}>
+            <lightning-messages> </lightning-messages>
+              
+                <div class="slds-col">
+                    <span>
+                        <lightning-input-field field-name="Name_of_Society__c" > </lightning-input-field>
+                    </span>
+                </div>
+                
+                <div class="slds-col">
+                    <span>
+                        <lightning-input-field field-name="Address__c" > </lightning-input-field>
+                    </span>
+                
+                </div>
+                
+                <div class="slds-col">
+                    <span>
+                        <lightning-input-field field-name="Slab__c" > </lightning-input-field>
+                    </span>
+                </div>
+                <div class="slds-col">
+                    <span>
+                        <lightning-input-field field-name="Premiumness__c" > </lightning-input-field>
+                    </span>
+               
+                </div>
+               
+                <div class="slds-col">
+                    <span>
+                        <lightning-input-field field-name="Category__c" > </lightning-input-field>
+                    </span>
+                </div>
+                <div class="slds-col">
+                    <span>
+                        <lightning-input-field field-name="City__c" > </lightning-input-field>
+                    </span>
+                </div>
+               
+                    
+                    <div class="slds-col ">
+                        <span >
+                            <lightning-input-field field-name="Depot__c"  > </lightning-input-field>
+                        </span>
+                    </div>
+                    <div class="slds-col">
+                        <span>
+                            <lightning-input-field field-name="Locality__c" > </lightning-input-field>
+                        </span>
+                  
+                    </div>
+                  
+                    <div class="slds-col">
+                        <span>
+                            <lightning-input-field field-name="Total_no_of_Flats__c" > </lightning-input-field>
+                        </span>
+                    </div>
+                    <div class="slds-col">
+                        <span>
+                          <lightning-input-field field-name="No_of_flats_occupied__c" > </lightning-input-field> 
+                        </span>
+                    </div>
+                    <div class="slds-col">
+                        <span>
+                          <lightning-input-field field-name="Delivery_Mode__c" > </lightning-input-field> 
+                        </span>
+                    </div>
+
+                   
+                <div class="slds-align_absolute-center">
+                    <lightning-button class="slds-m-top_small" type="submit" label="Submit" ></lightning-button>
+                    <lightning-button class="slds-m-top_small" label="Back" onclick={onBackCreateNew} ></lightning-button>
+                </div>   
+            </lightning-record-edit-form>
+        </div>
+    </lightning-card>
+</template>
+    
+<!--
+<template if:true={newRecordView}>
+    <lightning-card title= " New Record Details">
+        <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_4-of-7">
+            <lightning-record-view-form record-id={recordId} object-api-name="Segment__c">
+                <div class="slds-grid" style="margin-left: 10px">
+                    <div class="slds-col slds-size_1-of-2">
+                        
+                        <lightning-output-field field-name="Name_of_Society__c">
+                        </lightning-output-field>
+                        <lightning-output-field field-name="Slab__c">
+                        </lightning-output-field> 
+                        <lightning-output-field field-name="Category__c">
+                        </lightning-output-field>
+                        <lightning-output-field field-name="Depot__c">
+                        </lightning-output-field>
+                        
+                    </div>
+                    <div class="slds-col slds-size_1-of-2">
+                        
+                        <lightning-output-field field-name="Address__c">
+                        </lightning-output-field>
+                        <lightning-output-field field-name="Premiumness__c">
+                        </lightning-output-field>
+                        <lightning-output-field field-name="City__c">
+                        </lightning-output-field>
+                        <lightning-output-field field-name="Locality__c">
+                        </lightning-output-field>
+                            
+                    </div>
+                </div>
+                
+            </lightning-record-view-form>
+        </div>
+    </lightning-card>
+
+  
+    <template if:true={viewSegmentContact}>
+
+        <lightning-card title="RWA Contacts With Designations " icon-name="standard:contact" >
+        <br/>
+        
+            <div class="slds-scrollable " style="height:8rem;width:46rem">
+                
+            
+                <lightning-datatable 
+                data={contList} 
+                columns={columns}
+                    key-field="Id" 
+                    hide-checkbox-column="True"
+                    onrowaction={handleRowAction}>
+                </lightning-datatable><br/><br/>
+            
+            <br/><br/>
+        </div>
+        <div class="slds-m-around--xx-large container-fluid">
+        <lightning-button variant="brand" label="Add New " onclick={addRowNewSC}></lightning-button>        
+        
+    </div>
+            
+            <template if:true={ShowRowSC1}>
+            <div class="container-fluid">        
+                <table class="slds-table slds-table_bordered slds-table_cell-buffer"> 
+                    <thead>
+                        <tr class="slds-text-title_caps">
+                            <th scope="col">
+                                <div class="slds-truncate">#</div>
+                            </th>
+                            <th scope="col">
+                                <div class="slds-truncate" title="Segment Contact Name">Segment Contact Name</div>
+                            </th>
+                            <th scope="col">
+                                <div class="slds-truncate" title="Email">Email</div>
+                            </th>
+                            <th scope="col">
+                                <div class="slds-truncate" title="Phone">Phone</div>
+                            </th>
+                            <th scope="col">
+                                <div class="slds-truncate" title="Designation">Designation</div>
+                            </th>
+                            
+                                <th scope="col">
+                                <div class="slds-truncate" title="Action">Action</div>
+                            </th>
+                            
+                            
+                        </tr>
+                    </thead>   
+                    <tbody>      
+                        
+                        <template for:each={SCList1} for:item="scc1" for:index="indx">
+                            <tr key={scc1.key} id={scc1.key}> 
+                                <td>{indx}</td>                                                  
+                                <td>
+                                    <lightning-input data-id={indx} label="Name" value={scc1.Name} onchange={handleNameChangeNew1}></lightning-input>                               
+                                </td>
+                                <td>
+                                    <lightning-input data-id={indx} label="Email" value={scc1.Email__c} onchange={handleEmailChangeNew1}></lightning-input>                        
+                                </td>
+                                <td>
+                                    <lightning-input data-id={indx} label="Phone" value={scc1.Phone__c} onchange={handlePhoneChangeNew1}></lightning-input>
+                                </td>
+                                <td>
+                                 <lightning-input data-id={indx} label="Designation" value={scc1.Designation__c} onchange={handleDesignationChangeNew1}></lightning-input> 
+                                </td>
+                                <td>
+                                    <lightning-button-icon icon-name="utility:delete"
+                                                                                data-id={indx}       
+                                                                                alternative-text="Delete"     
+                                                                                class="slds-m-left_xx-small"
+                                                                                onclick={removeRow} 
+                                                                                title="Delete"></lightning-button-icon>
+                                </td>
+                            </tr>
+                        </template>
+                            
+                    </tbody>
+                </table>
+                <div class="slds-align_absolute-center slds-p-top_small">                
+                    <lightning-button name="Save" label="Save" onclick={saveRecordNewRec1} ></lightning-button>
+                </div>
+            </div>
+        </template>
+
+        
+</div>
+</lightning-card>
+</template>
+
+
+    <template if:true={SegrecordView}>
+        <lightning-card title= "Record Segment Details">
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_4-of-7">
+                <lightning-record-view-form record-id={recordIdSegC} object-api-name="Segment_Contact__c">
+                    <div class="slds-grid" style="margin-left: 10px">
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning-output-field field-name="Name">
+                            </lightning-output-field>
+                            <lightning-output-field field-name="Phone__c">
+                            </lightning-output-field>
+                            <lightning-output-field field-name="Designation__c">
+                            </lightning-output-field>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning-output-field field-name="Email__c">
+                            </lightning-output-field>
+                            <lightning-output-field field-name="Segment__c">
+                            </lightning-output-field>
+                            <lightning-output-field field-name="RecordTypeId">
+                            </lightning-output-field>
+                        </div>
+                    </div>
+                    <div class="slds-align_absolute-center">
+                        <lightning-button class="slds-m-top_small" label="Back" onclick={onBackCreateView} ></lightning-button>
+                    </div>
+                </lightning-record-view-form>
+            </div>
+        </lightning-card>
+</template>
+    <lightning-card title="RWA Servicing Vendors Details " icon-name="standard:contact" >
+        <br/>
+        <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_4-of-7">
+            <div class="slds-scrollable " style="height:7rem;width:46rem"> 
+                <div class="slds-text-longform" style="width:150%">
+                    
+                        <lightning-datatable 
+                        data={vendList} 
+                        columns={columnsSCD}
+                            key-field="Id" 
+                            hide-checkbox-column="True"
+                            onrowaction={handleRowActionV1}>
+                        </lightning-datatable>
+                    
+                </div>
+            </div>
+                <div class="slds-m-around--xx-large container-fluid">
+                <lightning-button variant="brand" label="Add New " onclick={addRowNewSV}></lightning-button>        
+
+                
+            </div>
+            <template if:true={ShowRowSV1}>
+            <div class="container-fluid">        
+                <table class="slds-table slds-table_bordered slds-table_cell-buffer"> 
+                    <thead>
+                        <tr class="slds-text-title_caps">
+                            <th scope="col">
+                                <div class="slds-truncate">#</div>
+                            </th>
+                            <th scope="col">
+                                <div class="slds-truncate" title="Vendor Code">Vendor Code</div>
+                            </th>
+                            <th scope="col">
+                                <div class="slds-truncate" title="Segment Contact Name">Segment Vendor Name</div>
+                            </th>
+                            <th scope="col">
+                                <div class="slds-truncate" title="Email">Email</div>
+                            </th>
+                            <th scope="col">
+                                <div class="slds-truncate" title="Phone">Phone</div>
+                            </th>
+                        
+                            <th scope="col">
+                                <div class="slds-truncate" title="Designation">Designation</div>
+                            </th>
+                            
+                            <th scope="col">
+                                <div class="slds-truncate" title="Action">Action</div>
+                            </th>
+                        </tr>
+                    </thead>   
+                    <tbody>      
+                        
+                        <template for:each={SVList1} for:item="svv1" for:index="indx">
+                            <tr key={svv1.key} id={svv1.key}> 
+                                <td>{indx}</td> 
+                                <td>
+                                    <lightning-input data-id={indx} label="Name" value={svv1.Business_Partner__r.Name} onchange={handleNameChangeVendNew1}></lightning-input>                               
+                                </td>                                                 
+                                <td>
+                                    <lightning-input data-id={indx} label="Name" value={svv1.Name} onchange={handleNameChangeVendNew1}></lightning-input>                               
+                                </td>
+                                <td>
+                                    <lightning-input data-id={indx} label="Email" value={svv1.Email__c} onchange={handleEmailChangeVendNew1}></lightning-input>                        
+                                </td>
+                                <td>
+                                    <lightning-input data-id={indx} label="Phone" value={svv1.Phone__c} onchange={handlePhoneChangeVendNew1}></lightning-input>
+                                </td>
+                            
+                                    <td>
+                                    <lightning-input data-id={indx} label="Designation" value={svv1.Designation__c} onchange={handleDesignationChangeVendNew1}></lightning-input>
+                                </td>
+                                
+                                <td>
+                                    <lightning-button-icon icon-name="utility:delete"
+                                                                                data-id={indx}       
+                                                                                alternative-text="Delete"     
+                                                                                class="slds-m-left_xx-small"
+                                                                                onclick={removeRowSV} 
+                                                                                title="Delete"></lightning-button-icon>
+                                </td>
+                            </tr>
+                        </template>
+                            
+                    </tbody>
+                </table>
+                <div class="slds-align_absolute-center slds-p-top_small">                
+                    <lightning-button name="Save" label="Save" onclick={saveRecordVendNew1} ></lightning-button>
+                </div>
+            </div>
+        </template>
+            
+        </div>  
+    </lightning-card>
+
+   
+    <template if:true={isRWA}>
+    <lightning-card title="Transactions Details " >   
+        <div class="slds-col slds-size_1-of-6 slds-medium-size_1-of-2 slds-large-size_4-of-7">
+            <div class="slds-scrollable " style="height:8rem;width:46rem"> 
+                <div class="slds-text-longform" style="width:100%">
+                <div class="slds-text-longform" style="width:150%">
+                    <lightning-datatable 
+                        data={transactionData1} 
+                        columns={columnsTSN1}
+                        key-field="Id" 
+                        hide-checkbox-column="True"
+                        onsave={handleSaveViewTsn}
+                        draft-values={draftValuesTsn}></lightning-datatable>
+    
+                
+            
+            </div>
+        </div>
+    </div>
+
+        
+       
+        <div class="slds-m-around--xx-large container-fluid">
+            <lightning-button variant="brand" label="Add New " onclick={addRow2}></lightning-button>        
+
+            
+        </div>
+        
+        <template if:true={CreateTSrecordNew}>
+        <div class="container-fluid">        
+            <table class="slds-table slds-table_bordered slds-table_cell-buffer"> 
+                <thead>
+                    <tr class="slds-text-title_caps">
+                        <th scope="col">
+                            <div class="slds-truncate">#</div>
+                        </th>
+                        
+                        
+                        <th scope="col">
+                            <div class="slds-truncate" title="Choose Company">Choose Company</div>
+                        </th>  
+                        
+                        
+                        <th scope="col">
+                            <div class="slds-truncate" title="Choose Newspaper">Choose Newspaper </div>
+                        </th>
+                        
+                        <th scope="col">
+                            <div class="slds-truncate" title="FTD Count">FTD Count</div>
+                        </th>
+                        <th scope="col">
+                        
+                        </th>
+                    </tr>
+                </thead>   
+                <tbody>      
+                    <tr key={tcc.key} id={tcc.key}> 
+                        <td>{indx}</td> 
+                    
+                        
+                                <td>
+                                <lightning-combobox
+                                name=""
+                                label="Choose Company"
+                                value={CompValues}
+                                placeholder="Select Option"
+                                options={CompValues}
+                                onchange={handleChange} ></lightning-combobox>
+                        </td>
+                        
+                        <td><div if:true={chooseNewspaper}>
+                            <lightning-combobox
+                            name=""
+                            label="Choose Newspaper"
+                            value={pickValues}
+                            placeholder="Select Progress"
+                            options={pickValues}
+                            onchange={handleChangeoption} ></lightning-combobox>
+                        </div>
+                        <div if:false={chooseNewspaper}>
+                            <lightning-input type="text" data-id={indx} label="Name Of Newspaper" value="" onchange={handleTSNameChange}></lightning-input>                        
+
+                        </div>  
+                    </td>
+                        
+                        
+                        
+                        <td>
+                            <lightning-input type="number" data-id={indx} label="FTD COUNT" value={} onchange={handleTSFTDChange}></lightning-input>                        
+                        </td>
+                        
+
+                        <td>
+                            <lightning-button-icon icon-name="utility:delete"
+                                                                        data-id={indx}       
+                                                                        alternative-text="Delete"     
+                                                                        class="slds-m-left_xx-small"
+                                                                        onclick={removeRowTS} 
+                                                                        title="Delete"></lightning-button-icon>
+                        </td>
+                    </tr>
+    <template for:each={TSList} for:item="tcc" for:index="indx">
+                    
+                    </template>
+                    
+                
+                        
+                </tbody>
+            </table>
+            <div class="slds-align_absolute-center slds-p-top_small">                
+                <lightning-button name="Save" label="Save" onclick={saveRecordTS} ></lightning-button>
+            </div>
+        </div>
+    </template></div>
+    </lightning-card>
+</template>
+<div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_4-of-7">
+<div class="slds-align_absolute-center slds-m-vertical_large">
+    <lightning-button variant="brand" disabled={locationButtonDisabled} icon-name="utility:target" label="Check In"
+                        title="Use your device's GPS and other location sensors to determine your current location"
+                        class="slds-m-top_small" onclick={handleGetCurrentLocationClickRWA}>
+    </lightning-button>
+    <lightning-button class="slds-m-top_small" label="Search Again" onclick={onSearchAgainSegmentView}></lightning-button>
+    <lightning-button class="slds-m-top_small" label="Cancel" onclick={onCancelSegmentView}></lightning-button>
+</div>
+</div>
+
+</template>
+
+<template if:true={SegrecordView}>
+        <template if:true={viewSegmentContact}>
+        <lightning-card title= "RWA Contacts With Designations ">
+        <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_4-of-7">
+            <lightning-record-edit-form object-api-name="Segment_Contact__c" onsuccess={handleSubmitSCRWA} record-type-id={recordTypeSegC}>
+            <lightning-messages> </lightning-messages>
+                <div class="slds-grid " style="margin-left: 10px" >
+                <div class="slds-col">
+                    <span>
+                        <lightning-input-field field-name="Name" required> </lightning-input-field>
+                    </span>
+                </div>
+                <div class="slds-col">
+                    <span>
+                        <lightning-input-field field-name="Email__c"> </lightning-input-field>
+                    </span>
+                </div>
+                </div>
+                <div class="slds-grid " style="margin-left: 10px" >
+                <div class="slds-col">
+                    <span>
+                        <lightning-input-field field-name="Phone__c" required> </lightning-input-field>
+                    </span>
+                </div>
+                <div class="slds-col">
+                    <span>
+                        <lightning-input-field field-name="Segment__c"> </lightning-input-field>
+                    </span>
+                </div>
+                </div>
+                <div class="slds-grid " style="margin-left: 10px" >
+                <div class="slds-col">
+                    <span>
+                        <lightning-input-field field-name="Designation__c"> </lightning-input-field>
+                    </span>
+                </div>
+                <div class="slds-col">
+                    <span>
+                      
+                    </span>
+                </div>
+                </div>
+
+                
+                <div class="slds-align_absolute-center">
+                    <lightning-button class="slds-m-top_small" type="submit" label="Submit"></lightning-button>
+                    
+                </div>   
+            </lightning-record-edit-form>
+        </div>
+    </lightning-card>
+    </template>
+</template>
+
+
+
+<template if:true={SegrecordVendView}>
+        <lightning-card title= "Record Segment Details">
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_4-of-7">
+                <lightning-record-view-form record-id={recordId} object-api-name="Segment_Contact__c">
+                    <div class="slds-grid" style="margin-left: 10px">
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning-output-field field-name="Name">
+                            </lightning-output-field>
+                            <lightning-output-field field-name="Phone__c">
+                            </lightning-output-field>
+                            <lightning-output-field field-name="Designation__c">
+                            </lightning-output-field>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning-output-field field-name="Email__c">
+                            </lightning-output-field>
+                            <lightning-output-field field-name="Segment__c">
+                            </lightning-output-field>
+                            <lightning-output-field field-name="RecordTypeId">
+                            </lightning-output-field>
+                        </div>
+                    </div>
+                    <div class="slds-align_absolute-center">
+                        <lightning-button class="slds-m-top_small" label="Back" onclick={onBackCreateView} ></lightning-button>
+                    </div>
+                </lightning-record-view-form>
+            </div>
+        </lightning-card>
+</template> -->
+
+
+
+
+
+
+
+
+</template>

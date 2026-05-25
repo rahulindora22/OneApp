@@ -1,0 +1,42 @@
+<template>
+    <template  if:true= {isView}>
+        <lightning-card title= "One App">
+            
+            <lightning-button variant="Neutral" label="RWA" title="Primary action" onclick={handleClickRwa} class="slds-m-left_x-small"></lightning-button>
+       
+            <lightning-button variant="Neutral" label="OOH" title="Primary action" onclick={handleClickOoh} class="slds-m-left_x-small"></lightning-button>
+       
+            <lightning-button variant="Neutral" label="CSP" title="Primary action" onclick={handleClickCsp} class="slds-m-left_x-small"></lightning-button>
+        
+            <lightning-button variant="Neutral" label="DEPOT" title="Primary action" onclick={handleClickDepo} class="slds-m-left_x-small"></lightning-button>
+         
+       
+</lightning-card>
+</template>
+<template  if:true= {showMessage}>
+    
+ <p> <b>You are Unauthorized for this app.</b> </p>
+</template>
+
+   
+
+    <template if:true={isRWA}>
+        <c-one-app-lwc onrwaback={handleRWABack}></c-one-app-lwc>
+    </template>
+    
+<template if:true={isOOH}>
+        <c-one-app-o-o-h onoohback={handleOOHBack}></c-one-app-o-o-h>
+    </template>
+  <template if:true={isCSP}>
+        <c-one-app-c-s-p oncspback={handleCSPBack}></c-one-app-c-s-p>
+    </template>
+    
+<template if:true={isDEPO}>
+        <c-one-app-depo ondepoback={handleDEPOBack}></c-one-app-depo>
+    </template>
+  
+
+
+   
+
+</template>
