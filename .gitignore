@@ -28,3 +28,23 @@ desktop.ini
 
 # ── Build output ──────────────────────────────────────────────────────
 build/
+
+# ── Salesforce DX — not part of this repo ─────────────────────────────
+force-app/
+manifest/
+config/
+scripts/
+.sf/
+.sfdx/
+.husky/
+.vscode/
+.claude/
+sfdx-project.json
+.forceignore
+.prettierignore
+.prettierrc
+eslint.config.js
+jest.config.js
+package.json
+package-lock.json
+README.md
